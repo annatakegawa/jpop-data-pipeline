@@ -1,7 +1,7 @@
 CREATE TABLE groups (
     group_id SERIAL PRIMARY KEY,
-    group_name TEXT NOT NULL,
     agency_id INT REFERENCES agencies(agency_id),
+    group_name TEXT NOT NULL UNIQUE,
     debut_date DATE,
     dsiband_date DATE,
     is_active BOOLEAN DEFAULT TRUE
