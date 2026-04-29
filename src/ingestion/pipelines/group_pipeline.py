@@ -1,6 +1,6 @@
 from src.core.database import Database
-from ingestion.sources.base_source import BaseSource
 from src.core.logger import Logger
+from src.ingestion.sources.base_source import BaseSource
 from src.ingestion.sources.static_source import StaticSource
 from src.ingestion.transformers.group_transformer import GroupTransformer
 from src.ingestion.loaders.group_loader import GroupLoader
@@ -17,12 +17,13 @@ class GroupPipeline:
         self.logger = Logger(self.__class__.__name__)
 
         self.db = Database()
+        self.db.connect()
 
         self.source = source
         self.transformer = GroupTransformer()
 
-        self.agency_loader = AgencyLoader(self.db)
-        self.group_loader = GroupLoader(self.db)
+        self.agency_loader = AgencyLoader(self.db, self.logger)
+        self.group_loader = GroupLoader(self.db, self.logger)
 
     def run(self):
         self.logger.info("Starting group ingestion pipeline...")
@@ -38,7 +39,8 @@ class GroupPipeline:
 
                 # Resolve agency -> agency id
                 agency_id = self.agency_loader.get_or_create(
-                    group["agency_name"])
+                    group["agency_name"]
+                )
                 group["agency_id"] = agency_id
                 del group["agency_name"]
 
@@ -46,11 +48,11 @@ class GroupPipeline:
                 group_id = self.group_loader.upsert(group)
 
                 self.logger.info(
-                    f"Loaded group: {group['name']} (ID: {group_id})")
+                    f"Loaded group: {group['group_name']} (ID: {group_id})")
 
             except Exception as e:
                 self.logger.error(
-                    f"Failed to process group '{raw['name']}': {e}")
+                    f"Failed to process group '{raw['group_name']}': {e}")
 
         self.logger.info("Finished group ingestion pipeline.")
 

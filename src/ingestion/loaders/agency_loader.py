@@ -1,13 +1,14 @@
 from sqlalchemy import text
+from src.ingestion.loaders.base_loader import BaseLoader
 
 
-class AgencyLoader:
+class AgencyLoader(BaseLoader):
     """
     Handles database operations for agencies.
     """
 
-    def __init__(self, db):
-        self.db = db
+    def __init__(self, db, logger):
+        super().__init__(db, logger)
 
     def get_or_create(self, agency_name: str) -> int:
         """
@@ -19,13 +20,13 @@ class AgencyLoader:
         Returns:
             int: The ID of the agency.
         """
-        query = text("""
-            INSERT INTO agencies (name)
-            VALUES (:name)
-            ON CONFLICT (name)
-            DO UPDATE SET name = EXCLUDED.name
+        query = """
+            INSERT INTO agencies (agency_name)
+            VALUES (:agency_name)
+            ON CONFLICT (agency_name)
+            DO UPDATE SET agency_name = EXCLUDED.agency_name
             RETURNING agency_id;
-        """)
+        """
 
-        result = self.db.execute(query, {"name": agency_name})
+        result = self.db.execute(query, {"agency_name": agency_name})
         return result.fetchone()[0]

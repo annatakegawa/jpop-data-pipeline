@@ -1,4 +1,4 @@
-from ingestion.sources.base_source import BaseSource
+from src.ingestion.sources.base_source import BaseSource
 
 
 class StaticSource(BaseSource):
@@ -9,18 +9,18 @@ class StaticSource(BaseSource):
     def fetch_groups(self):
         return [
             {
-                "name": "Snow Man",
-                "agency": "STARTO",
+                "group_name": "Snow Man",
+                "agency_name": "STARTO",
                 "debut_date": "2020-01-22",
             },
             {
-                "name": "SixTONES",
-                "agency": "STARTO",
+                "group_name": "SixTONES",
+                "agency_name": "STARTO",
                 "debut_date": "2020-01-22",
             },
             {
-                "name": "M!LK",
-                "agency": "EBiDAN",
+                "group_name": "M!LK",
+                "agency_name": "EBiDAN",
                 "debut_date": "2014-11-24",
             },
         ]

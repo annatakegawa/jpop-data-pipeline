@@ -13,7 +13,7 @@ class GroupTransformer:
         Normalizes raw group data.
         """
         return {
-            "name": raw["name"].strip(),
+            "group_name": raw["group_name"].strip(),
             "agency_name": raw["agency_name"].strip(),
             "debut_date": self._parse_date(raw["debut_date"]),
         }
