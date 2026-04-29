@@ -95,6 +95,24 @@ notebooks/  → exploration & analysis
 * What are the most active periods in an idol’s career?
 
 
+## 🐳 Containerized Development
+
+The project now ships with a VS Code dev container and a Docker Compose setup for the app plus PostgreSQL.
+
+On a Windows machine, the workflow is:
+
+1. Install Docker Desktop and VS Code.
+2. Open this folder in VS Code.
+3. Use the command to reopen the folder in the dev container.
+
+That gives you the same Python environment, dependencies, and database service without installing Python or PostgreSQL locally.
+
+To run the pipeline inside the container, use the integrated terminal and launch the same module command you already use, for example:
+
+```bash
+PYTHONPATH=./src python -m ingestion.pipelines.group_pipeline
+```
+
 ## 🚀 Future Work
 
 ### Data Engineering
