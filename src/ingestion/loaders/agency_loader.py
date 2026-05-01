@@ -29,4 +29,4 @@ class AgencyLoader(BaseLoader):
         """
 
         result = self.db.execute(query, {"agency_name": agency_name})
-        return result.fetchone()[0]
+        return result[0][0]

@@ -1,4 +1,4 @@
-from src.core.database import Database
+from src.core.database import Database, DatabaseError
 from src.core.logger import Logger
 from src.ingestion.sources.base_source import BaseSource
 from src.ingestion.sources.static_source import StaticSource
@@ -29,7 +29,7 @@ class GroupPipeline:
         self.logger.info("Starting group ingestion pipeline...")
 
         # Step 1: Fetch raw group data
-        raw_groups = self.source.fetch_groups()
+        raw_groups = self.source.fetch_groups() or []
 
         # Step 2: Transform and insert group data into database
         for raw in raw_groups:
@@ -51,6 +51,12 @@ class GroupPipeline:
                     f"Loaded group: {group['group_name']} (ID: {group_id})")
 
             except Exception as e:
+                if isinstance(e, DatabaseError):
+                    self.logger.error(
+                        f"Database error while processing group '{raw['group_name']}': {e}"
+                    )
+                    raise
+
                 self.logger.error(
                     f"Failed to process group '{raw['group_name']}': {e}")
 

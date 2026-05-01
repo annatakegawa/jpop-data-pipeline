@@ -21,7 +21,7 @@ class GroupLoader(BaseLoader):
             int: The group_id of the inserted or updated group.
         """
 
-        query = text("""
+        query = """
             INSERT INTO groups (group_name, agency_id, debut_date)
             VALUES (:group_name, :agency_id, :debut_date)
             ON CONFLICT (group_name)
@@ -29,10 +29,7 @@ class GroupLoader(BaseLoader):
                 agency_id = EXCLUDED.agency_id,
                 debut_date = EXCLUDED.debut_date
             RETURNING group_id; 
-        """)
+        """
 
         result = self.db.execute(query, data)
-
-        # Fetch the returned id
-        row = result.fetchone()
-        return row[0]
+        return result[0][0]
