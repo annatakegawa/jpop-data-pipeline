@@ -12,6 +12,7 @@
         "vscode": {
             "settings": {
                 "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "python.envFile": "/workspace/.env.container",
                 "python.analysis.extraPaths": [
                     "/workspace",
                     "/workspace/src"

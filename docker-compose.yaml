@@ -4,17 +4,14 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: jpop_app
+    env_file:
+      - .env.container
     depends_on:
       - db
     working_dir: /workspace
     volumes:
       - .:/workspace:cached
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: admin
-      DB_PASSWORD: password
-      DB_NAME: jpop-idols
       PYTHONPATH: /workspace:/workspace/src
     command: sleep infinity
 
@@ -22,10 +19,8 @@ services:
     image: postgres:15
     container_name: jpop_db
     restart: always
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: jpop-idols
+    env_file:
+      - .env.container
     ports:
       - "5433:5432"
     volumes:

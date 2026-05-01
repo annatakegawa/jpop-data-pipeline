@@ -99,6 +99,11 @@ notebooks/  → exploration & analysis
 
 The project now ships with a VS Code dev container and a Docker Compose setup for the app plus PostgreSQL.
 
+Environment files are split as follows:
+
+- `.env` for local host runs with a local Postgres port mapping
+- `.env.container` for the dev container and Docker Compose
+
 On a Windows machine, the workflow is:
 
 1. Install Docker Desktop and VS Code.
